@@ -17,6 +17,7 @@ import {
   setAccessToken,
   setRefreshToken,
 } from "@/services/tokenServices";
+import apiClient from "@/lib/apiClient";
 
 interface AuthContextProps {
   user: any | null;
@@ -79,10 +80,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = () => {
-    clearTokens();
-    setUser(null);
-    navigate("/login");
+  const logout = async () => {
+    try {
+      await apiClient.post("/auth/logout");
+      clearTokens();
+      setUser(null);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      toast.error("An unknown error occurred");
+    }
   };
 
   return (
