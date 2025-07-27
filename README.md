@@ -1,69 +1,97 @@
-# React + TypeScript + Vite
+📦 Secure File Storage System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack application for secure file uploads and management using Node.js, MongoDB, AWS S3, and React.
 
-Currently, two official plugins are available:
+🛠️ Project Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+📁 Backend (Node.js + Express)
 
-## Expanding the ESLint configuration
+Clone the repository -backend -node.js
+  git clone https://github.com/farhathullaM/StoreIt-backend
+Install Dependencies
+  npm install
+Create a .env file
+  See .env.example for required variables or 
+  PORT
+  MONGO_URI
+  JWT_SECRET
+  JWT_REFRESH_SECRET
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+  AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY
+  AWS_REGION
+  AWS_BUCKET_NAME
+Start the Server
+  npm run dev
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Clone the repository -fronted -React.js
+  git clone https://github.com/farhathullaM/StoreIt
+Install Dependencies
+  npm install 
+Change the base URL in index.html 
+ window.__STOREIT_API_BASE_URL__ = "https://your-backend-url";
+Start the App
+  npm run dev
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+📄 API Documentation
+Base URL 
+  https://your-backend-url/api
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+🔐 Auth Routes (/api/auth)
+  POST /register
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+  Registers a new user.
+    Body:
+      {
+      "firstName": "John",
+      "lastName": "Doe",
+      "phone": "1234567890",
+      "email": "john@example.com",
+      "password": "yourPassword"
+      }
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+POST /login
+  Logs in a user and returns access/refresh tokens.
+  Body:
+    {
+    "email": "john@example.com",
+    "password": "yourPassword"
+    }
+
+POST /refresh
+  Refreshes the access token using the refresh token stored in cookies.
+
+POST /logout
+  Logs out the user and clears cookies.
+
+📁 File Routes (/api/files)
+  All file routes require authentication (bearer token).
+
+  POST /upload
+  Uploads a file to S3.
+  Headers:
+    Authorization: Bearer <access_token>
+    Content-Type: multipart/form-data
+  FormData:
+    file: <your_file>
+
+  GET /
+    Returns a list of all uploaded files for the authenticated user.
+    Headers:
+    Authorization: Bearer <access_token>
+
+  DELETE /:id
+    Deletes a file by its ID.
+    Headers:
+      Authorization: Bearer <access_token>
+
+
+🧑‍💻 Tech Stack
+
+  Frontend: React, TypeScript, Tailwind CSS
+  Backend: Node.js, Express.js
+  Database: MongoDB
+  Storage: AWS S3
+  Auth: JWT (access + refresh tokens)
+
