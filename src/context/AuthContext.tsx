@@ -14,9 +14,7 @@ import {
 import {
   clearTokens,
   getAccessToken,
-  getRefreshToken,
   setAccessToken,
-  setRefreshToken,
 } from "@/services/tokenServices";
 import apiClient from "@/lib/apiClient";
 
@@ -51,8 +49,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  console.log(user, "user");
-
   // Initial load
   useEffect(() => {
     loadUserFromToken();
@@ -65,7 +61,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const res = await loginApi(formData);
       setAccessToken(res.accessToken);
-      setRefreshToken(res.refreshToken);
       loadUserFromToken();
       toast.success("Login successful");
     } catch (error) {
@@ -84,7 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     try {
       await apiClient.post("/auth/logout", {
-        refreshToken: getRefreshToken(),
+        withCredentials: true,
       });
       clearTokens();
       setUser(null);

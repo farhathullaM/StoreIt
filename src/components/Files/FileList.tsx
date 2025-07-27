@@ -1,6 +1,6 @@
 import { fetchFiles } from "@/services/file_api";
 import { useQuery } from "@tanstack/react-query";
-import ImageContainer from "./ImageContainer";
+import FilePreviewCard from "./FilePreviewCard";
 
 const FileList = () => {
   const { data, isLoading, isError } = useQuery({
@@ -8,21 +8,19 @@ const FileList = () => {
     queryFn: () => fetchFiles(),
   });
 
-  console.log(data);
-
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
 
   return (
-    <div className="flex flex-wrap gap-2">
- {data.map((file: any) => (
-    <ImageContainer
-      key={file._id}
-      id={file._id}
-      url={file.url}
-      name={file.originalName}
-    />
-  ))}
+    <div className="flex flex-wrap gap-2 items-center w-full justify-center">
+      {data.map((file: any) => (
+        <FilePreviewCard
+          key={file._id}
+          id={file._id}
+          url={file.url}
+          name={file.originalName}
+        />
+      ))}
     </div>
   );
 };

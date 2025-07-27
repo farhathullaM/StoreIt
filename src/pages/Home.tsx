@@ -1,5 +1,5 @@
 import FileList from "@/components/Files/FileList";
-import SingleImageUpload from "@/components/ImageUpload/SingleImageUpload";
+import FileUpload from "@/components/ImageUpload/FileUpload";
 import SheetWrapper from "@/components/ui/SheetWrapper";
 import Upload from "@/components/ui/Upload";
 
@@ -9,7 +9,7 @@ const Home = () => {
       <SheetWrapper
         title="Upload Image"
         trigger={<Upload />}
-        children={<SingleImageUpload />}
+        children={<FileUpload />}
         side="right"
       />
 

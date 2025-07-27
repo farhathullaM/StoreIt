@@ -1,12 +1,12 @@
+// apiClient.ts - Updated to work with cookies
 import { API_URL } from "@/constants/url";
 import { refreshAccessToken } from "./auth";
 import axios, { AxiosError, type AxiosInstance } from "axios";
 import { addToQueue, processQueue } from "@/utils/processQueue";
 import {
   getAccessToken,
-  getRefreshToken,
   setAccessToken,
-  setRefreshToken,
+  clearTokens,
 } from "@/services/tokenServices";
 
 const apiClient: AxiosInstance = axios.create({
@@ -14,6 +14,7 @@ const apiClient: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, 
 });
 
 let isRefreshing = false;
@@ -47,18 +48,22 @@ apiClient.interceptors.response.use(
           })
           .catch((err) => Promise.reject(err));
       }
+
       isRefreshing = true;
 
       try {
-        const response = await refreshAccessToken(getRefreshToken());
+        const response = await refreshAccessToken();
         console.log(response, "response");
+
         setAccessToken(response.accessToken);
-        setRefreshToken(response.refreshToken);
+
         processQueue(null, response.accessToken);
         originalRequest.headers.Authorization = `Bearer ${response.accessToken}`;
+
         return apiClient(originalRequest);
       } catch (refreshErr) {
         processQueue(refreshErr, null);
+        clearTokens();
         return Promise.reject(refreshErr);
       } finally {
         isRefreshing = false;

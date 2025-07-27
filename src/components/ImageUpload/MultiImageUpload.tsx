@@ -60,12 +60,6 @@ const MultiImageUpload = () => {
     files.forEach((file) => {
       formData.append("files", file);
     });
-
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
-
-    // Send to backend here (axios or fetch)
   };
 
   return (
