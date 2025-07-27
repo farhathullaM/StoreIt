@@ -1,18 +1,13 @@
 import Header from "@/components/Navbar/Header";
-import { useAuth } from "@/context/AuthContext";
-import { Outlet, useNavigate } from "react-router-dom";
+import ProtectedRoute from "@/routes/ProtectedRoute";
+import { Outlet } from "react-router-dom";
 
 const UserLayout = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  if (!user) navigate("/login");
-
   return (
-    <div>
+    <ProtectedRoute>
       <Header />
       <Outlet />
-    </div>
+    </ProtectedRoute>
   );
 };
 

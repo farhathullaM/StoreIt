@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import type { RegisterType } from "../types/RegisterType";
 import { PHONE_REGEX } from "@/utils/regex";
+import { toNullIfEmpty } from "@/utils/transform";
 
 export const registerSchema: yup.ObjectSchema<RegisterType> = yup.object({
   firstName: yup
@@ -12,12 +13,13 @@ export const registerSchema: yup.ObjectSchema<RegisterType> = yup.object({
     .string()
     .optional()
     .nullable()
-    .min(3, "Last name must be at least 3 characters long")
+    .transform(toNullIfEmpty)
     .max(50, "Last name must be at most 50 characters long"),
   phone: yup
     .string()
     .nullable()
     .optional()
+    .transform(toNullIfEmpty)
     .matches(PHONE_REGEX, "Invalid phone number"),
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup

@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import type { LoginType } from "./types/LoginType";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "./validationSchemas/loginSchema";
+import { useEffect } from "react";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -23,7 +24,10 @@ const LoginForm = () => {
     login(formData);
   };
 
-  if (user) navigate("/");
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user]);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -51,9 +55,9 @@ const LoginForm = () => {
       <button
         disabled={loading}
         type="submit"
-        className="text-white w-full my-5 max-sm:my-2 bg-[#2563EB] py-2 px-4 rounded-md text-sm cursor-pointer select-none"
+        className="text-white w-full my-5 max-sm:my-2 active:bg-[#435d94] bg-[#2563EB] hover:bg-[rgb(37,80,235)] py-2 px-4 rounded-md text-sm cursor-pointer select-none"
       >
-        Login
+        {loading ? "Loading..." : "Login"}
       </button>
 
       <div className="text-center flex gap-1">

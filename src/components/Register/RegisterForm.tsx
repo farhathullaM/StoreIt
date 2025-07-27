@@ -1,11 +1,12 @@
 import Input from "../ui/Input";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { RegisterType } from "./types/RegisterType";
 import { registerUser } from "@/services/authentication_api";
 import { registerSchema } from "./validationSchemas/registerSchema";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -21,10 +22,13 @@ const RegisterForm = () => {
 
   const onSubmit = async (formData: RegisterType) => {
     const res = await registerUser(formData);
-    if (res === 201) navigate("/login");
+    if (res === 201) navigate("/user/login");
   };
 
-  if (user) navigate("/");
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user]);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -87,7 +91,7 @@ const RegisterForm = () => {
 
       <button
         type="submit"
-        className="text-white w-full my-5 max-sm:my-2 bg-[#2563EB] py-2 px-4 rounded-md text-sm cursor-pointer select-none"
+        className="text-white w-full my-5 max-sm:my-2 active:bg-[#435d94] bg-[#2563EB] hover:bg-[rgb(37,80,235)] py-2 px-4 rounded-md text-sm cursor-pointer select-none"
       >
         Register
       </button>
