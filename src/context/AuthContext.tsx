@@ -14,6 +14,7 @@ import {
 import {
   clearTokens,
   getAccessToken,
+  getRefreshToken,
   setAccessToken,
   setRefreshToken,
 } from "@/services/tokenServices";
@@ -82,7 +83,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await apiClient.post("/auth/logout");
+      await apiClient.post("/auth/logout", {
+        refreshToken: getRefreshToken(),
+      });
       clearTokens();
       setUser(null);
       navigate("/login");

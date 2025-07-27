@@ -36,7 +36,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-[#9a2d2d]" onClick={onClick}>{btnText}</AlertDialogAction>
+          <AlertDialogAction className="bg-[#9a2d2d] cursor-pointer active:bg-[#662121] hover:bg-[#662121]" onClick={onClick}>{btnText}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -1,6 +1,6 @@
 import Input from "../ui/Input";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import type { LoginType } from "./types/LoginType";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -55,6 +55,13 @@ const LoginForm = () => {
       >
         Login
       </button>
+
+      <div className="text-center flex gap-1">
+        <p className="text-[#797979]">Don't have an account?</p>
+        <Link to="/register" className="text-black underline">
+          Register
+        </Link>
+      </div>
     </form>
   );
 };

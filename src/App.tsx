@@ -7,13 +7,16 @@ import UserLayout from "./layouts/UserLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import NotFound from "./pages/ErrorPage";
+import LoadingPage from "./pages/LoadingPage";
 
 function App() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingPage />}>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="*" element={<NotFound />} />
 
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />

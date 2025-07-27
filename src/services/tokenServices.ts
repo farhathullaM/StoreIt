@@ -1,7 +1,7 @@
 const getAccessToken = (): string | null => localStorage.getItem("accessToken");
 
 const getRefreshToken = (): string | null =>
-  localStorage.getItem("refreshToken ");
+  localStorage.getItem("refreshToken");
 
 const setAccessToken = (token: string) =>
   localStorage.setItem("accessToken", token);

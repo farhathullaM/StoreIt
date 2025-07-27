@@ -51,6 +51,7 @@ apiClient.interceptors.response.use(
 
       try {
         const response = await refreshAccessToken(getRefreshToken());
+        console.log(response, "response");
         setAccessToken(response.accessToken);
         setRefreshToken(response.refreshToken);
         processQueue(null, response.accessToken);

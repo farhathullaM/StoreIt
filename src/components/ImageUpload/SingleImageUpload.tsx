@@ -1,9 +1,10 @@
-import { uploadFile } from "@/services/file_api";
+import { useFileActions } from "@/hooks/useFileActions";
 import { CircleX, FileUp } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const SingleImageUpload = () => {
+  const { upload, uploaded, uploading } = useFileActions();
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -30,17 +31,27 @@ const SingleImageUpload = () => {
     setImagePreview(null);
   };
 
-  const onUpload = () => {
+  const onUpload = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!file) {
       toast.error("No file selected");
       return;
     }
 
-    uploadFile(file);
+    upload(file);
   };
 
+  useEffect(() => {
+    if (uploaded) {
+      removeImage();
+    }
+  }, [uploaded]);
+
   return (
-    <div className="flex items-center justify-center gap-4 flex-col">
+    <form
+      onSubmit={onUpload}
+      className="flex items-center justify-center gap-4 flex-col"
+    >
       <input
         type="file"
         id="imageupload"
@@ -72,13 +83,13 @@ const SingleImageUpload = () => {
         </label>
       )}
 
-      <div
+      <input
+        type="submit"
+        disabled={uploading}
+        value={uploading ? "Uploading..." : "Upload"}
         className="text-white w-40 text-center my-5 max-sm:my-2 bg-[#507ad5] py-2 px-6 rounded-md text-sm cursor-pointer select-none"
-        onClick={onUpload}
-      >
-        Upload
-      </div>
-    </div>
+      />
+    </form>
   );
 };
 

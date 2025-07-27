@@ -1,6 +1,6 @@
 import Input from "../ui/Input";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { RegisterType } from "./types/RegisterType";
@@ -91,6 +91,13 @@ const RegisterForm = () => {
       >
         Register
       </button>
+
+      <div className="text-center flex gap-1 justify-center">
+        <p className="text-[#797979]">Already have an account?</p>
+        <Link to="/login" className="text-black underline">
+          Login
+        </Link>
+      </div>
     </form>
   );
 };
