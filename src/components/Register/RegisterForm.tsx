@@ -22,7 +22,7 @@ const RegisterForm = () => {
 
   const onSubmit = async (formData: RegisterType) => {
     const res = await registerUser(formData);
-    if (res === 201) navigate("/user/login");
+    if (res === 201) navigate("/login");
   };
 
   useEffect(() => {
